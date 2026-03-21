@@ -1,8 +1,7 @@
-import './style.css'
 import {computed, signal} from '@preact/signals'
-import type {CSSProperties} from 'preact'
 import {render} from 'preact'
-import {getFontData, getMeasureData, isTextInspectable} from './helper'
+import {copyTextToClipboard, getFontData, getMeasureData, isTextInspectable} from './helper'
+import type {ArrowDirection, ArrowPlacement, ArrowProps, CSSWithVars, FontOverlayProps} from './types'
 
 /**
  * Signals for dynamic values
@@ -25,6 +24,8 @@ const fontData = computed(() => {
   const target = fontTarget.value
   return target ? getFontData(target) : null
 })
+const notificationMessage = signal<string | null>(null)
+let notificationTimer: number | undefined
 
 /**
  * Main logic
@@ -37,6 +38,16 @@ document.addEventListener('mouseover', (event: MouseEvent) => {
       return
     }
     hoveredElement.value = target
+  }
+)
+document.addEventListener('click', async (event: MouseEvent) => {
+    const imageSrc = getImageSourceFromTarget(event.target)
+    if (!imageSrc) {
+      return
+    }
+
+    const copied = await copyTextToClipboard(imageSrc)
+    showNotification(copied ? 'Lien de l image copie' : 'Impossible de copier le lien de l image')
   }
 )
 
@@ -80,6 +91,7 @@ function InspectorOverlay() {
       <Arrow direction="right" size={measure.paddingRight} color="#2563eb" placement="inner"/>
       <Arrow direction="bottom" size={measure.paddingBottom} color="#2563eb" placement="inner"/>
       <FontOverlay font={font}/>
+      <NotificationToast/>
     </>
   )
 }
@@ -131,6 +143,10 @@ function Arrow({direction, size, color, placement}: ArrowProps) {
   const isVertical = direction === 'top' || direction === 'bottom'
   const label = `${Math.round(size)}px`
 
+  if (size < 2) {
+    return null;
+  }
+
   return (
     <div
       data-inspector-ui
@@ -160,6 +176,34 @@ function Arrow({direction, size, color, placement}: ArrowProps) {
       >
         {label}
       </span>
+    </div>
+  )
+}
+
+function NotificationToast() {
+  const message = notificationMessage.value
+  if (!message) {
+    return null
+  }
+
+  return (
+    <div
+      data-inspector-ui
+      style={{
+        position: 'fixed',
+        right: '1rem',
+        bottom: '1rem',
+        zIndex: '1001',
+        background: 'rgba(0, 0, 0, 0.85)',
+        color: '#fff',
+        padding: '0.6rem 0.8rem',
+        borderRadius: '0.5rem',
+        fontSize: '0.8rem',
+        boxShadow: '0 6px 16px rgba(0, 0, 0, 0.22)',
+        pointerEvents: 'none',
+      }}
+    >
+      {message}
     </div>
   )
 }
@@ -201,17 +245,25 @@ function getArrowPositionStyle(direction: ArrowDirection, placement: ArrowPlacem
   return {bottom: 'anchor(center)', left: 'anchor(right)'}
 }
 
-type CSSWithVars = CSSProperties & Record<string, string | number | undefined>
-type ArrowDirection = 'top' | 'left' | 'bottom' | 'right'
-type ArrowPlacement = 'outer' | 'inner'
+function getImageSourceFromTarget(target: EventTarget | null): string | null {
+  if (!(target instanceof Element)) {
+    return null
+  }
 
-type ArrowProps = {
-  direction: ArrowDirection
-  size: number
-  color?: string
-  placement?: ArrowPlacement
+  const image = target instanceof HTMLImageElement ? target : target.closest('img')
+  if (!(image instanceof HTMLImageElement)) {
+    return null
+  }
+
+  return image.currentSrc || image.src || null
 }
 
-type FontOverlayProps = {
-  font: ReturnType<typeof getFontData> | null
+function showNotification(message: string) {
+  notificationMessage.value = message
+  if (notificationTimer) {
+    window.clearTimeout(notificationTimer)
+  }
+  notificationTimer = window.setTimeout(() => {
+    notificationMessage.value = null
+  }, 1800)
 }

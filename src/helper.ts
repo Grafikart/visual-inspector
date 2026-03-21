@@ -1,37 +1,4 @@
-export type ContentRect = {
-  x: number
-  y: number
-  left: number
-  top: number
-  width: number
-  height: number
-  right: number
-  bottom: number
-}
-
-export type MeasureData = {
-  x: number
-  y: number
-  width: number
-  height: number
-  top: number
-  left: number
-  bottom: number
-  right: number
-  paddingTop: number
-  paddingRight: number
-  paddingBottom: number
-  paddingLeft: number
-}
-
-export type FontData = {
-  family: string
-  sizeRem: string
-  weight: string
-  showWeight: boolean
-  lineHeightRatio: number
-  placeAbove: boolean
-}
+import type {ContentRect, DistancePair, DistanceStrategy, FontData, MeasureData} from './types'
 
 // Rounds numeric values to 2 decimals for stable UI labels.
 export function round2(value: number): number {
@@ -152,13 +119,15 @@ export function isTextInspectable(target: HTMLElement): boolean {
   return target.textContent?.trim() !== ''
 }
 
-type DistancePair = [number, number]
-
-type DistanceStrategy = {
-  getSibling: (target: HTMLElement) => HTMLElement | null
-  getParentDelta: (targetRect: ContentRect, parentRect: ContentRect) => DistancePair
-  getSiblingDelta: (targetRect: ContentRect, siblingRect: ContentRect) => DistancePair
-  shouldRecurse: (distance: DistancePair) => boolean
+export async function copyTextToClipboard(value: string): Promise<boolean> {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(value)
+      return true
+    } catch {
+      alert("Impossible de copier le chemin de l'image")
+    }
+  }
 }
 
 const topLeftDistanceStrategy: DistanceStrategy = {
@@ -200,7 +169,7 @@ function getDistance(target: HTMLElement, strategy: DistanceStrategy): DistanceP
     return normalizeDistance(distance)
   }
 
-  const siblingRect = getContentRect(sibling)
+  const siblingRect = sibling.getBoundingClientRect()
   const distance = strategy.getSiblingDelta(targetRect, siblingRect)
   return normalizeDistance(distance)
 }
