@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inspecteur HTML</title>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <main>
+      <section class="mx-auto max-w-6xl px-6 py-20">
+        <div class="overflow-hidden rounded-3xl border border-cyan-200 bg-gradient-to-r from-cyan-50 via-white to-sky-100 px-8 py-16 text-slate-900 shadow-lg md:px-14">
+          <p class="mb-4 inline-block rounded-full border border-cyan-300 bg-cyan-100 px-3 py-1 text-sm font-medium text-cyan-800">Outil d'audit HTML</p>
+          <h1 class="max-w-3xl text-4xl font-bold leading-tight md:text-5xl">Inspectez la structure d'un document HTML en un coup d'oeil.</h1>
+          <p class="mt-5 max-w-2xl text-base text-slate-700 md:text-lg">L'inspecteur analyse vos balises, signale les incohérences de hiérarchie et vous aide a maintenir un DOM propre, lisible et accessible.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#produits" class="rounded-lg bg-cyan-600 px-5 py-3 font-semibold text-white transition hover:bg-cyan-700">Voir les fonctionnalites</a>
+            <a href="#" class="rounded-lg border border-slate-300 px-5 py-3 font-semibold text-slate-800 transition hover:bg-white">Voir la documentation</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="produits" class="mx-auto max-w-6xl px-6 pb-20">
+        <div class="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <h2 class="text-3xl font-bold text-slate-900">Fonctionnalites principales</h2>
+            <p class="mt-2 text-slate-600">Tout ce qu'il faut pour verifier et comprendre votre structure HTML.</p>
+          </div>
+          <a href="#" class="text-sm font-semibold text-cyan-700 hover:text-cyan-800">Comparer les offres</a>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mb-4 rounded-xl border border-slate-200 bg-slate-50 p-8 text-center text-4xl">🧱</div>
+            <h3 class="text-lg font-semibold text-slate-900">Vue arborescente</h3>
+            <p class="mt-1 text-sm text-slate-600">Visualisez l'imbrication des balises en temps reel.</p>
+            <p class="mt-4 font-bold text-cyan-700">Inclus</p>
+          </article>
+
+          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mb-4 rounded-xl border border-slate-200 bg-slate-50 p-8 text-center text-4xl">⚠️</div>
+            <h3 class="text-lg font-semibold text-slate-900">Alertes de structure</h3>
+            <p class="mt-1 text-sm text-slate-600">Reperez les balises mal fermees et les anomalies.</p>
+            <p class="mt-4 font-bold text-cyan-700">Inclus</p>
+          </article>
+
+          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mb-4 rounded-xl border border-slate-200 bg-slate-50 p-8 text-center text-4xl">♿</div>
+            <h3 class="text-lg font-semibold text-slate-900">Controle accessibilite</h3>
+            <p class="mt-1 text-sm text-slate-600">Detectez les oublis de structure utiles aux lecteurs d'ecran.</p>
+            <p class="mt-4 font-bold text-cyan-700">Inclus</p>
+          </article>
+
+          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mb-4 rounded-xl border border-slate-200 bg-slate-50 p-8 text-center text-4xl">📦</div>
+            <h3 class="text-lg font-semibold text-slate-900">Export de rapport</h3>
+            <p class="mt-1 text-sm text-slate-600">Generez un resume clair a partager avec votre equipe.</p>
+            <p class="mt-4 font-bold text-cyan-700">Pro</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-8 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+        <p>© 2026 Inspecteur HTML. Tous droits reserves.</p>
+        <nav class="flex gap-5">
+          <a href="#" class="hover:text-slate-900">A propos</a>
+          <a href="#" class="hover:text-slate-900">Confidentialite</a>
+          <a href="#" class="hover:text-slate-900">Support</a>
+        </nav>
+      </div>
+    </footer>
+    <script src="/src/inspector.tsx" type="module"></script>
+  </body>
+</html>
