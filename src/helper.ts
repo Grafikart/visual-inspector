@@ -1,4 +1,39 @@
-import type {ContentRect, DistancePair, DistanceStrategy, FontData, MeasureData} from './types'
+import type {FontData} from './types'
+
+type ContentRect = {
+  x: number
+  y: number
+  left: number
+  top: number
+  width: number
+  height: number
+  right: number
+  bottom: number
+}
+
+type MeasureData = {
+  x: number
+  y: number
+  width: number
+  height: number
+  top: number
+  left: number
+  bottom: number
+  right: number
+  paddingTop: number
+  paddingRight: number
+  paddingBottom: number
+  paddingLeft: number
+}
+
+type DistancePair = [number, number]
+
+type DistanceStrategy = {
+  getSibling: (target: HTMLElement) => HTMLElement | null
+  getParentDelta: (targetRect: ContentRect, parentRect: ContentRect) => DistancePair
+  getSiblingDelta: (targetRect: ContentRect, siblingRect: ContentRect) => DistancePair
+  shouldRecurse: (distance: DistancePair) => boolean
+}
 
 // Rounds numeric values to 2 decimals for stable UI labels.
 export function round2(value: number): number {
