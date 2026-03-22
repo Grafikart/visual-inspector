@@ -82,6 +82,7 @@ function InspectorOverlay() {
           ['anchor-name']: '--content-box',
         } as CSSWithVars}
       />
+      <ContentSizeLabel width={measure.width} height={measure.height}/>
       <Arrow direction="left" size={measure.left}/>
       <Arrow direction="top" size={measure.top}/>
       <Arrow direction="right" size={measure.right}/>
@@ -93,6 +94,29 @@ function InspectorOverlay() {
       <FontOverlay font={font}/>
       <NotificationToast/>
     </>
+  )
+}
+
+function ContentSizeLabel({width, height}: {width: number; height: number}) {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        right: 'anchor(right)',
+        bottom: 'anchor(top)',
+        textAlign: 'right',
+        transform: 'translateY(-6px)',
+        ['position-anchor']: '--content-box',
+        color: '#2563eb',
+        fontSize: '0.7rem',
+        fontWeight: '600',
+        lineHeight: '1',
+        pointerEvents: 'none',
+        zIndex: '1000',
+      } as CSSWithVars}
+    >
+      {`${Math.round(width)}px × ${Math.round(height)}px`}
+    </div>
   )
 }
 
