@@ -119,14 +119,17 @@ export function isTextInspectable(target: HTMLElement): boolean {
   return target.textContent?.trim() !== ''
 }
 
-export async function copyTextToClipboard(value: string): Promise<void> {
+export async function copyTextToClipboard(value: string): Promise<boolean> {
   if (navigator.clipboard?.writeText) {
     try {
       await navigator.clipboard.writeText(value)
+      return true
     } catch {
       alert("Impossible de copier le chemin de l'image")
+      return false
     }
   }
+  return false
 }
 
 const topLeftDistanceStrategy: DistanceStrategy = {
