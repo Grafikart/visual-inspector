@@ -138,6 +138,7 @@ export function getLineHeightRatio(style: CSSStyleDeclaration): number {
 export function getFontData(target: HTMLElement): FontData {
   const style = getComputedStyle(target)
   const rect = target.getBoundingClientRect()
+  const letterSpacing = getLetterSpacing(style)
 
   return {
     family: style.fontFamily.split(',')[0]?.trim() ?? style.fontFamily,
@@ -145,6 +146,7 @@ export function getFontData(target: HTMLElement): FontData {
     weight: style.fontWeight,
     showWeight: style.fontWeight !== '400',
     lineHeightRatio: round2(getLineHeightRatio(style)),
+    letterSpacingPx: letterSpacing,
     placeAbove: rect.top > 100,
   }
 }
@@ -218,4 +220,19 @@ function normalizeDistance([first, second]: DistancePair): DistancePair {
 function parsePx(value: string): number {
   const parsed = parseFloat(value)
   return Number.isFinite(parsed) ? parsed : 0
+}
+
+function getLetterSpacing(style: CSSStyleDeclaration): string | null {
+  const letterSpacing = style.letterSpacing.trim()
+  const normalized = letterSpacing.toLowerCase()
+  if (normalized === 'normal') {
+    return null
+  }
+
+  const value = parseFloat(letterSpacing)
+  if (!Number.isFinite(value) || value === 0) {
+    return null
+  }
+
+  return `${round2(value)}px`
 }

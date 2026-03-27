@@ -117,7 +117,7 @@ function InspectorOverlay() {
         color="#2563eb"
         placement="inner"
       />
-      <FontOverlay font={font} width={measure.width} />
+      <FontOverlay font={font} />
     </>
   );
 }

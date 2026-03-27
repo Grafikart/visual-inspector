@@ -2,10 +2,9 @@ import type { CSSWithVars, FontData } from "../types.ts";
 
 type Props = {
   font: FontData | null;
-  width: number;
 };
 
-export function FontOverlay({ font, width }: Props) {
+export function FontOverlay({ font }: Props) {
   if (!font) {
     return null;
   }
@@ -24,6 +23,7 @@ export function FontOverlay({ font, width }: Props) {
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.15)",
           opacity: font ? "1" : "0",
           pointerEvents: "none",
+          left: "anchor(left)",
           ["position-anchor"]: "--content-box",
           ...(font?.placeAbove
             ? { bottom: "anchor(top)", transform: "translateY(-5px)" }
@@ -54,6 +54,12 @@ export function FontOverlay({ font, width }: Props) {
           <span style={{ opacity: 0.5 }}>Interlignage :</span>{" "}
           {font.lineHeightRatio}
         </li>
+        {font.letterSpacingPx ? (
+          <li>
+            <span style={{ opacity: 0.5 }}>Espacement :</span>{" "}
+            {font.letterSpacingPx}
+          </li>
+        ) : null}
       </ul>
     </div>
   );

@@ -7,6 +7,7 @@ export type FontData = {
   weight: string
   showWeight: boolean
   lineHeightRatio: number
+  letterSpacingPx: string | null
   placeAbove: boolean
 }
 
