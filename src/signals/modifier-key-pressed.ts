@@ -3,7 +3,7 @@ import { signal } from "@preact/signals";
 export const isModifierPressed = signal(false); // Ctrl (Windows/Linux) or Cmd (macOS)
 
 const syncModifierState = (event: KeyboardEvent) => {
-  isModifierPressed.value = event.ctrlKey || event.metaKey;
+  isModifierPressed.value = event.ctrlKey || event.metaKey || event.altKey;
 };
 
 const resetModifierState = () => {
@@ -11,7 +11,7 @@ const resetModifierState = () => {
 };
 
 document.addEventListener("keydown", syncModifierState);
-document.addEventListener("keyup", syncModifierState);
+document.addEventListener("keyup", resetModifierState);
 window.addEventListener("blur", resetModifierState);
 window.addEventListener("pagehide", resetModifierState);
 document.addEventListener("visibilitychange", () => {

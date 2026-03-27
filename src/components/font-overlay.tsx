@@ -24,7 +24,6 @@ export function FontOverlay({ font, width }: Props) {
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.15)",
           opacity: font ? "1" : "0",
           pointerEvents: "none",
-          ...(width < 150 ? { right: 'anchor(left)'} : {left: "anchor(left)"}) as CSSWithVars,
           ["position-anchor"]: "--content-box",
           ...(font?.placeAbove
             ? { bottom: "anchor(top)", transform: "translateY(-5px)" }
