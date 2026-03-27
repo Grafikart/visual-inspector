@@ -71,9 +71,36 @@ function getImageSourceFromTarget(target: EventTarget | null): string | null {
 
   const image =
     target instanceof HTMLImageElement ? target : target.closest("img");
-  if (!(image instanceof HTMLImageElement)) {
+  if (image instanceof HTMLImageElement) {
+    return image.currentSrc || image.src || null;
+  }
+
+  return getBackgroundImageUrlFromAncestors(target);
+}
+
+function getBackgroundImageUrlFromAncestors(target: Element): string | null {
+  let current: Element | null = target;
+  while (current) {
+    const backgroundImageUrl = getBackgroundImageUrl(current);
+    if (backgroundImageUrl) {
+      return backgroundImageUrl;
+    }
+    current = current.parentElement;
+  }
+
+  return null;
+}
+
+function getBackgroundImageUrl(target: Element): string | null {
+  const backgroundImage = getComputedStyle(target).backgroundImage.trim();
+  if (!backgroundImage || backgroundImage === "none") {
     return null;
   }
 
-  return image.currentSrc || image.src || null;
+  const match = backgroundImage.match(/url\((['"]?)(.*?)\1\)/i);
+  if (!match?.[2]) {
+    return null;
+  }
+
+  return match[2];
 }
