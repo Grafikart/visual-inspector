@@ -88,7 +88,11 @@ function InspectorOverlay() {
           } as CSSWithVars
         }
       />
-      <ContentSizeLabel width={measure.width} height={measure.height} />
+      <ContentSizeLabel
+        width={measure.width}
+        height={measure.height}
+        top={measure.top}
+      />
       <Arrow direction="left" size={measure.left} />
       <Arrow direction="top" size={measure.top} />
       <Arrow direction="right" size={measure.right} />
@@ -125,19 +129,24 @@ function InspectorOverlay() {
 function ContentSizeLabel({
   width,
   height,
+  top,
 }: {
   width: number;
   height: number;
+  top: number;
 }) {
+  const isPinnedToTop = top <= 0;
+
   return (
     <div
       style={
         {
           position: "absolute",
           right: "anchor(right)",
-          bottom: "anchor(top)",
+          top: isPinnedToTop ? "anchor(bottom)" : undefined,
+          bottom: isPinnedToTop ? undefined : "anchor(top)",
           textAlign: "right",
-          transform: "translateY(-6px)",
+          transform: isPinnedToTop ? "translateY(6px)" : "translateY(-6px)",
           ["position-anchor"]: "--content-box",
           color: "#2563eb",
           fontSize: "0.7rem",
