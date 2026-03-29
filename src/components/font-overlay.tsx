@@ -45,6 +45,27 @@ export function FontOverlay({ font }: Props) {
         <li>
           <span style={{ opacity: 0.5 }}>Taille :</span> {font.sizeRem}
         </li>
+        <li
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+          }}
+        >
+          <span style={{ opacity: 0.5 }}>Couleur :</span>
+          <span
+            aria-label={`Couleur ${font.colorHex}`}
+            style={{
+              width: "0.75rem",
+              height: "0.75rem",
+              borderRadius: "0.2rem",
+              backgroundColor: font.colorHex,
+              border: "1px solid rgba(255, 255, 255, 0.25)",
+              flexShrink: 0,
+            }}
+          />
+          <span>{font.colorHex}</span>
+        </li>
         {font.showWeight ? (
           <li>
             <span style={{ opacity: 0.5 }}>Graissage :</span> {font.weight}

@@ -5,6 +5,7 @@ export type FontData = {
   family: string
   sizeRem: string
   weight: string
+  colorHex: string
   showWeight: boolean
   lineHeightRatio: number
   letterSpacingPx: string | null

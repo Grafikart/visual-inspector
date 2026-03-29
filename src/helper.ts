@@ -144,6 +144,7 @@ export function getFontData(target: HTMLElement): FontData {
     family: style.fontFamily.split(',')[0]?.trim() ?? style.fontFamily,
     sizeRem: toRemFromPx(style.fontSize),
     weight: style.fontWeight,
+    colorHex: toHexColor(style.color),
     showWeight: style.fontWeight !== '400',
     lineHeightRatio: round2(getLineHeightRatio(style)),
     letterSpacingPx: letterSpacing,
@@ -235,4 +236,37 @@ function getLetterSpacing(style: CSSStyleDeclaration): string | null {
   }
 
   return `${round2(value)}px`
+}
+
+function toHexColor(value: string): string {
+  const color = value.trim()
+  const match = color.match(/rgba?\(([^)]+)\)/i)
+
+  if (!match) {
+    return color
+  }
+
+  const [red = '0', green = '0', blue = '0', alpha = '1'] = match[1]
+    .split(',')
+    .map((channel) => channel.trim())
+
+  const rgbHex = [red, green, blue]
+    .map((channel) => clampChannel(Number.parseFloat(channel)).toString(16).padStart(2, '0'))
+    .join('')
+
+  const alphaValue = Number.parseFloat(alpha)
+  if (!Number.isFinite(alphaValue) || alphaValue >= 1) {
+    return `#${rgbHex}`.toUpperCase()
+  }
+
+  const alphaHex = clampChannel(alphaValue * 255).toString(16).padStart(2, '0')
+  return `#${rgbHex}${alphaHex}`.toUpperCase()
+}
+
+function clampChannel(value: number): number {
+  if (!Number.isFinite(value)) {
+    return 0
+  }
+
+  return Math.max(0, Math.min(255, Math.round(value)))
 }
